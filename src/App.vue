@@ -1,22 +1,30 @@
 <template>
   <div id="app">
     <router-view></router-view>
+    <Tab></Tab>
   </div>
+
 </template>
 
 <script>
-export default {
-  name: 'app'
-}
+  import Tab from 'components/tab/tab'
+
+  export default {
+    name: 'app',
+    components: {
+      Tab
+    }
+  }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style scoped lang="stylus" rel="stylesheet/stylus">
+  #app {
+    height: 100vh;
+    width: 100%;
+    max-width: 640px;
+    background-color white
+    margin: auto;
+    padding: 0;
+    position: relative;
+  }
 </style>
