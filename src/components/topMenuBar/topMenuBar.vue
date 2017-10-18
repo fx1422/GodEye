@@ -25,9 +25,9 @@
       }
     },
     methods: {
-      showList(msg,index) {
+      showList(item,index) {
         this.num = index;
-        bus.$emit('id',index);
+        bus.$emit('type',item.title);
       }
     }
   }

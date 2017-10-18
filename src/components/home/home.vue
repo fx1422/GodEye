@@ -2,21 +2,21 @@
   <div class='home'>
     <TopHead></TopHead>
     <TopMenuBar></TopMenuBar>
-    <Content></Content>
+    <ContentBox></ContentBox>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import TopHead from 'components/head/head'
   import TopMenuBar from 'components/topMenuBar/topMenuBar'
-  import Content from 'components/content/content'
+  import ContentBox from 'components/ContentBox/ContentBox'
 
   export default {
     data() {
       return {}
     },
     components: {
-      TopHead,TopMenuBar,Content
+      TopHead,TopMenuBar,ContentBox
     }
   }
 </script>

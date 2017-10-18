@@ -4,7 +4,8 @@ import Home from 'components/home/home'
 import Video from 'components/video/video'
 import Ranking from 'components/ranking/ranking'
 import Account from 'components/account/account'
-import Content from 'components/content/content'
+import ContentBox from 'components/ContentBox/ContentBox'
+import NewsContent from 'components/newsContent/newsContent'
 
 Vue.use(Router);
 export default new Router({
@@ -20,7 +21,7 @@ export default new Router({
       children: [
         {
           path: ':id',
-          component: Content
+          component: ContentBox
         }
       ]
     },
@@ -38,6 +39,10 @@ export default new Router({
       path: '/account',
       name: 'account',
       component: Account
+    }, {
+      path: '/newsContent',
+      name: 'newsContent',
+      component: NewsContent
     }
   ]
 })

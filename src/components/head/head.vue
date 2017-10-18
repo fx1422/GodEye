@@ -28,8 +28,12 @@
     .search{
       position absolute
       left 6rem
+      height 1rem
       font-size 0.8rem
-      color #A4A4A4
+      color #cacaca
+      top 0
+      bottom 0
+      margin auto
     }
     input{
       height 40%
