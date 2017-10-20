@@ -40,7 +40,7 @@ export default new Router({
       name: 'account',
       component: Account
     }, {
-      path: '/newsContent',
+      path: '/newsContent/:id',
       name: 'newsContent',
       component: NewsContent
     }

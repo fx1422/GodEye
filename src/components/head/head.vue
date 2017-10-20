@@ -19,6 +19,7 @@
     box-sizing border-box
     padding 0 1rem
     position relative
+    background-size cover
     span{
       font-size 1.1rem
       color #ffffff
@@ -46,6 +47,7 @@
       font-size $font-size-medium-ll
       text-indent 1.5rem
       text-overflow ellipsis
+      opacity 0.9
     }
   }
 </style>

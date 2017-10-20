@@ -1,65 +1,55 @@
 <template>
 
   <div class='newsContent'>
-    <div class="header">
+    <div class="header" ref="header">
       <div class="left">
         <i class="iconfont icon-back" @click="back"></i>
-        <div class="span0">
+        <div class="span0" v-if="!showTitle">
           <img src="../../common/image/login.png" alt="">
           <div class="span1">
-            <div>新华网</div>
-            <div>3051万粉</div>
+            <div>{{newsContent.username}}</div>
+            <div>{{newsContent.n_fans}}个粉丝</div>
           </div>
         </div>
       </div>
       <div class="right">
-        <div class="focus">关注</div>
+        <div class="focus" v-if="!showTitle">关注</div>
         <i class="iconfont icon-fenxiang"></i>
       </div>
     </div>
-    <Scroll class="scroll">
+    <Scroll ref="scroll" class="scroll" :listenScroll="scrolls" @scroll="listenScroll">
       <div class="content">
-        <div class="title">
-          习近平：我国社会主要矛盾已经转化为人民日益增长的美好生活需要和不平衡不充分的发展之间的矛盾
+        <div  class="title" ref="title">
+          {{newsContent.title}}
         </div>
-        <div class="sub-header">
+        <div class="sub-header" ref="subHeader">
           <div class="left">
             <img src="../../common/image/login.png" alt="">
             <div class="msg">
-              <div class="top">新华网</div>
-              <div class="bot"><span>2017-10-10 10:12:51</span>·<span>新华网头条号</span></div>
+              <div class="top">{{newsContent.username}}</div>
+              <div class="bot"><span>{{newsContent.time}}</span>·<span>{{newsContent.username}}</span></div>
             </div>
           </div>
           <span class="right focus ">关注</span>
         </div>
         <div class="text">
-          习近平:中国特色社会主义进入新时代,我国社会主要矛盾已经转化为人民日益增长的美好生活需要和不平衡不充分的发展之间的矛盾。我国稳定解决了十几亿人的温饱问题,总体上实现小康,不久将全面建成小康社会,人民美好生活需要日益广泛,不仅对物质文化生活提出了更高要求,而且在民主、法治、公平、正义、安全、环境等方面的要求日益增长。同时,我国社会生产力水平总体上显著提高,社会生产能力在很多方面进入世界前列,更加突出的问题是发展不平衡不充分,这已经成为满足人民日益增长的美好生活需要的主要制约因素。
-          习近平:中国特色社会主义进入新时代,我国社会主要矛盾已经转化为人民日益增长的美好生活需要和不平衡不充分的发展之间的矛盾。我国稳定解决了十几亿人的温饱问题,总体上实现小康,不久将全面建成小康社会,人民美好生活需要日益广泛,不仅对物质文化生活提出了更高要求,而且在民主、法治、公平、正义、安全、环境等方面的要求日益增长。同时,我国社会生产力水平总体上显著提高,社会生产能力在很多方面进入世界前列,更加突出的问题是发展不平衡不充分,这已经成为满足人民日益增长的美好生活需要的主要制约因素。
+          {{newsContent.content}}
         </div>
         <div class="tag">
-          <span>科技</span><span>19大</span><span>领航中国</span>
+          <span v-for="list in tagList">{{list}}</span>
         </div>
         <div class="like">
-          <div class="n-like active"><i class="iconfont icon-zan"></i>522</div>
-          <div class="n-like"><i class="iconfont icon-cai"></i>20</div>
+          <div class="n-like active"><i class="iconfont icon-zan"></i>{{newsContent.n_like}}</div>
+          <div class="n-like"><i class="iconfont icon-cai"></i>{{newsContent.n_unlike}}</div>
         </div>
         <div class="comment-area-list">
-          <div class="list">
+          <div class="list" v-for="list in comment">
             <div class="left"><img src="http://p3.pstatp.com/thumb/216e00116e7a9bbb1206" alt=""></div>
             <div class="right">
-              <div class="top"><span class="top-title">烟锁池瑭柳 </span><span class="zan"><i class="iconfont icon-zan"></i>22</span>
+              <div class="top"><span class="top-title">{{list.username}} </span><span class="zan"><i class="iconfont icon-zan"></i>{{list.n_like_comment}}</span>
               </div>
-              <div class="mid">拉平均算大概每个平方20-25元左右包含洗澡做菜用气。也就是100平方房子大概费用2000-2500左右</div>
-              <div class="bot"><span class="time">10-16 19:14</span><span>3回复</span></div>
-            </div>
-          </div>
-          <div class="list">
-            <div class="left"><img src="http://p3.pstatp.com/thumb/216e00116e7a9bbb1206" alt=""></div>
-            <div class="right">
-              <div class="top"><span class="top-title">烟锁池瑭柳 </span><span class="zan"><i class="iconfont icon-zan"></i>22</span>
-              </div>
-              <div class="mid">拉平均算大概每个平方20-25元左右包含洗澡做菜用气。也就是100平方房子大概费用2000-2500左右</div>
-              <div class="bot"><span class="time">10-16 19:14</span><span>3回复</span></div>
+              <div class="mid">{{list.content}}</div>
+              <div class="bot"><span class="time">{{list.comment_time}}</span><!--<span>3回复</span>--></div>
             </div>
           </div>
         </div>
@@ -82,31 +72,73 @@
 
 <script type="text/ecmascript-6">
   import Scroll from 'base/scroll/scroll'
+  import {baseUrl} from 'api/config'
 
   export default {
     data() {
       return {
-        isEdit:false,
-        notNull:false,
-        inputVal:null
+        showTitle:true,
+        scrolls:true,
+        news_id: '',
+        newsContent: [],
+        comment: [],
+        tagList: [],
+        isEdit: false,
+        notNull: false,
+        inputVal: null,
+        height:0
       }
     },
+    created() {
+      this._initList();
+    },
+    mounted(){
+      this.height = this.$refs.subHeader.offsetHeight+this.$refs.title.offsetHeight*6;
+    },
     methods: {
+      _initList() {
+        this.news_id = this.$route.params.id;
+        this.getNewsContent();
+        this.getComment();
+      },
+      listenScroll(pos){
+        this.showTitle = -pos.y < this.height||-pos.y<100;
+        this.$refs.scroll.refresh()
+        console.log(pos)
+      },
+      getNewsContent() {
+        this.$http.get(baseUrl+'home/newsContent', {params: {'id': this.news_id}}).then(data => {
+          this.newsContent = data.data[0];
+          this.tagList = this.newsContent.tag.split(',');
+          this.$refs.scroll.refresh()
+        }, error => {
+          console.log(error)
+        });
+      },
+      getComment() {
+        this.$http.get(baseUrl+'home/comment', {params: {'id': this.news_id}}).then(data => {
+          this.comment = data.data;
+          this.$refs.scroll.refresh()
+        }, error => {
+          console.log(error)
+        });
+      },
       back() {
         this.$router.go(-1)
       },
-      toEdit(){
-        this.isEdit=true
+      toEdit() {
+        this.isEdit = true
       },
     },
-    watch:{
-      inputVal(val){
-       if(val.length>0){
-         this.notNull=true
-       }else {
-         this.notNull=false
-       }
+    watch: {
+      inputVal(val) {
+        if (val.length > 0) {
+          this.notNull = true
+        } else {
+          this.notNull = false
+        }
       }
+
     },
     directives: {
       focus: {
@@ -184,6 +216,7 @@
       .right {
         display flex
         flex 2
+        justify-content flex-end
         .focus {
           font-size $font-size-small
           color #ffff
@@ -346,7 +379,7 @@
                 font-size $font-size-medium-x
                 box-sizing border-box
                 padding 0.1rem 0
-                span:nth-child(1){
+                span:nth-child(1) {
                   color #747474
                 }
                 span:nth-child(2) {
@@ -405,7 +438,7 @@
         }
       }
     }
-    .comment-area-edit{
+    .comment-area-edit {
       position fixed
       bottom 0
       width: 100%
@@ -418,7 +451,7 @@
       border-top 1px solid #f0f0f0
       justify-content space-between
       z-index 99
-      input{
+      input {
         width 80%
         height 70%
         border-radius 14px
@@ -428,14 +461,14 @@
         text-indent 1rem
         letter-spacing 2px
       }
-      .publish{
+      .publish {
         width 20%
         color #cacaca
         font-weight 600
         font-size $font-size-medium-l
         text-align center
       }
-      .notnull{
+      .notnull {
         color #467CD4
       }
     }

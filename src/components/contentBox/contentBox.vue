@@ -1,11 +1,17 @@
 <template>
-  <Scroll class="scroll">
+  <Scroll class="scroll" ref="scroll">
     <ul>
-      <li @click="goContent()">
-        <div class="title">刀郎曾被那英瞧不起，说刀郎是农民歌手，来看一下他在新疆的生活</div>
+      <li @click="goContent(item.id)" v-for="(item,index) in newsList">
+        <div class="title">{{item.title}}</div>
+        <div class="screenShot">
+          <img src="../../common/image/test1.jpg" alt=""> <img src="../../common/image/test2.jpg" alt=""> <img
+          src="../../common/image/test3.jpg" alt="">
+        </div>
+
         <div class="msg">
-          <span class="label">置顶</span><span class="author">新华网</span><span class="n-review">52条评论</span><span
-          class="time">52分钟前</span><!--<i class="iconfont icon-icon4 close-news"></i>-->
+          <span v-if="item.to_top===0" class="label">置顶</span><span class="author">{{item.username}}</span><span
+          class="n-review">{{item.n_comment}}条评论</span><span
+          class="time">{{item.time}}</span><!--<i class="iconfont icon-icon4 close-news"></i>-->
         </div>
       </li>
     </ul>
@@ -13,20 +19,33 @@
 </template>
 <script type="text/ecmascript-6">
   import Scroll from 'base/scroll/scroll'
+  import utils from 'common/js/utils'
   import {bus} from 'api/bus'
+  import {baseUrl} from 'api/config'
 
   export default {
     data() {
-      return {}
+      return {
+        newsList: []
+      }
     },
-    created() {
+    mounted() {
+      this.getNewsList();
       bus.$on('type', (data) => {
         console.log(data)
       })
     },
     methods: {
-      goContent() {
-        this.$router.push('/newsContent')
+      getNewsList() {
+        this.$http.get(baseUrl+'home').then(data => {
+          this.newsList = data.data
+          this.$refs.scroll.refresh()
+        }, error => {
+          console.log(error)
+        })
+      },
+      goContent(id) {
+        this.$router.push('/newsContent/'+id);
         return
       },
     },
@@ -51,8 +70,17 @@
           font-family 'STHeiti', 'Microsoft YaHei', 'Helvetica', 'Arial', sans-serif
           letter-spacing 2px
         }
+        .screenShot {
+          display flex
+          justify-content space-around
+          padding 0.4rem 0
+          box-sizing border-box
+          img {
+            height 8.4vh
+            width: 30%
+          }
+        }
         .msg {
-          margin-top 0.2rem
           position relative
           .label {
             font-size $font-size-small-s
@@ -73,7 +101,7 @@
             bottom -0.5rem
             color #C4C4C4
           }
-          .close-news{
+          .close-news {
             font-size 1.5rem
             z-index 99
           }
