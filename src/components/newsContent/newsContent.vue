@@ -72,7 +72,6 @@
 
 <script type="text/ecmascript-6">
   import Scroll from 'base/scroll/scroll'
-  import {baseUrl} from 'api/config'
 
   export default {
     data() {
@@ -104,7 +103,6 @@
       listenScroll(pos){
         this.showTitle = -pos.y < this.height||-pos.y<100;
         this.$refs.scroll.refresh()
-        console.log(pos)
       },
       getNewsContent() {
         this.$http.get(baseUrl+'home/newsContent', {params: {'id': this.news_id}}).then(data => {

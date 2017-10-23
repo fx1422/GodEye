@@ -6,6 +6,7 @@ import Ranking from 'components/ranking/ranking'
 import Account from 'components/account/account'
 import ContentBox from 'components/ContentBox/ContentBox'
 import NewsContent from 'components/newsContent/newsContent'
+import Login from 'components/login/login'
 
 Vue.use(Router);
 export default new Router({
@@ -39,10 +40,16 @@ export default new Router({
       path: '/account',
       name: 'account',
       component: Account
-    }, {
+    },
+    {
       path: '/newsContent/:id',
       name: 'newsContent',
       component: NewsContent
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
     }
   ]
 })

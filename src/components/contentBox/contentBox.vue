@@ -21,7 +21,6 @@
   import Scroll from 'base/scroll/scroll'
   import utils from 'common/js/utils'
   import {bus} from 'api/bus'
-  import {baseUrl} from 'api/config'
 
   export default {
     data() {

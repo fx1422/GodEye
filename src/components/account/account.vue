@@ -6,7 +6,7 @@
           登录推荐更精准
         </div>
         <div class="bot">
-          <div class="item"><i class="iconfont icon-shouji"></i></div>
+          <div class="item" @click="login_mobile"><i class="iconfont icon-shouji"></i></div>
           <div class="item"><i class="iconfont icon-weixin"></i></div>
           <div class="item"><i class="iconfont icon-QQ"></i></div>
           <i class="iconfont icon-youjiantou"></i>
@@ -58,6 +58,7 @@
 
 <script type="text/ecmascript-6">
   import Scroll from 'base/scroll/scroll'
+  import {bus} from 'api/bus'
 
   export default {
     data() {
@@ -66,9 +67,12 @@
         mid_night: false
       }
     },
-    methods:{
-      cutNight(){
-        this.mid_night=!this.mid_night
+    methods: {
+      login_mobile() {
+       bus.$emit('send_login_mobile',true)
+      },
+      cutNight() {
+        this.mid_night = !this.mid_night
       }
     },
     components: {
@@ -103,8 +107,8 @@
           position relative
           align-items center
           .item {
-            width 15vw
-            height 15vw
+            width 3rem
+            height 3rem
             border-radius 50%
             background-color #ffffff
             margin 5vh 0.6rem
@@ -225,7 +229,7 @@
         }
 
       }
-      .list{
+      .list {
         height 6vh
         background-color #ffffff
         margin-top 0.6rem
@@ -234,11 +238,11 @@
         justify-content space-between
         box-sizing border-box
         padding 0 1rem
-        span{
+        span {
           font-size $font-size-large-s
           letter-spacing 2px
         }
-        i{
+        i {
           font-size 0.9rem
           color #E4E4E4
         }

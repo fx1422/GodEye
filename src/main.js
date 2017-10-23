@@ -6,6 +6,7 @@ import 'api/rem'
 import 'common/fonts/iconfont.css'
 import 'common/fonts/iconfont.js'
 import 'common/fonts/iconfont.woff'
+import  'api/config'
 
 Vue.prototype.$http = axios;
 new Vue({
