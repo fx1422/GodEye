@@ -52,6 +52,9 @@
       <div class="list">
         <span>系统设置</span><i class="iconfont icon-youjiantou"></i>
       </div>
+      <div class="login_out" @click="login_out">
+       退出登录
+      </div>
     </div>
   </Scroll>
 </template>
@@ -59,6 +62,7 @@
 <script type="text/ecmascript-6">
   import Scroll from 'base/scroll/scroll'
   import {bus} from 'api/bus'
+  import Utils from 'common/js/utils'
 
   export default {
     data() {
@@ -67,12 +71,21 @@
         mid_night: false
       }
     },
+    created() {
+      if (Utils.getCookie('login_success')) {
+        this.isLogin = Utils.getCookie('login_success');
+      }
+    },
     methods: {
       login_mobile() {
-       bus.$emit('send_login_mobile',true)
+        bus.$emit('send_login_mobile', true)
       },
       cutNight() {
         this.mid_night = !this.mid_night
+      },
+      login_out(){
+        Utils.delCookie('login_success');
+        this.isLogin = false
       }
     },
     components: {
@@ -246,6 +259,20 @@
           font-size 0.9rem
           color #E4E4E4
         }
+      }
+      .login_out{
+        text-align center
+        font-size $font-size-large
+        height 5vh
+        line-height 5vh
+        background-color #4a89ff
+        width 80%
+        margin 1rem auto 0
+        border-radius 6px
+        color #ffffff
+      }
+      .login_out:active{
+        background-color #2c558e
       }
     }
 

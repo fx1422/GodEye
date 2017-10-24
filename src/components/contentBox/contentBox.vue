@@ -30,6 +30,7 @@
     },
     mounted() {
       this.getNewsList();
+      this.$refs.scroll.refresh()
       bus.$on('type', (data) => {
         console.log(data)
       })
@@ -37,8 +38,10 @@
     methods: {
       getNewsList() {
         this.$http.get(baseUrl+'home').then(data => {
-          this.newsList = data.data
-          this.$refs.scroll.refresh()
+          this.newsList = data.data;
+          this.$nextTick(() => {
+            this.$refs.scroll.refresh();
+          });
         }, error => {
           console.log(error)
         })

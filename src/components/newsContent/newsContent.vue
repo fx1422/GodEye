@@ -19,7 +19,7 @@
     </div>
     <Scroll ref="scroll" class="scroll" :listenScroll="scrolls" @scroll="listenScroll">
       <div class="content">
-        <div  class="title" ref="title">
+        <div class="title" ref="title">
           {{newsContent.title}}
         </div>
         <div class="sub-header" ref="subHeader">
@@ -46,7 +46,8 @@
           <div class="list" v-for="list in comment">
             <div class="left"><img src="http://p3.pstatp.com/thumb/216e00116e7a9bbb1206" alt=""></div>
             <div class="right">
-              <div class="top"><span class="top-title">{{list.username}} </span><span class="zan"><i class="iconfont icon-zan"></i>{{list.n_like_comment}}</span>
+              <div class="top"><span class="top-title">{{list.username}} </span><span class="zan"><i
+                class="iconfont icon-zan"></i>{{list.n_like_comment}}</span>
               </div>
               <div class="mid">{{list.content}}</div>
               <div class="bot"><span class="time">{{list.comment_time}}</span><!--<span>3回复</span>--></div>
@@ -63,7 +64,7 @@
     </div>
     <div class="comment-area-edit" v-if="isEdit">
       <input placeholder="优质评论将会被优先展示" type="text" v-focus="isEdit" v-model="inputVal">
-      <div class="publish" :class="notNull==true?'notnull':''">发布</div>
+      <div class="publish" :class="notNull==true?'notnull':''" @click="post_comment">发布</div>
     </div>
   </div>
 
@@ -72,12 +73,15 @@
 
 <script type="text/ecmascript-6">
   import Scroll from 'base/scroll/scroll'
+  import Qs from 'qs'
+  import Utils from 'common/js/utils'
+  import {bus} from 'api/bus'
 
   export default {
     data() {
       return {
-        showTitle:true,
-        scrolls:true,
+        showTitle: true,
+        scrolls: true,
         news_id: '',
         newsContent: [],
         comment: [],
@@ -85,14 +89,14 @@
         isEdit: false,
         notNull: false,
         inputVal: null,
-        height:0
+        height: 0
       }
     },
     created() {
       this._initList();
     },
-    mounted(){
-      this.height = this.$refs.subHeader.offsetHeight+this.$refs.title.offsetHeight*6;
+    mounted() {
+      this.height = this.$refs.subHeader.offsetHeight + this.$refs.title.offsetHeight * 6;
     },
     methods: {
       _initList() {
@@ -100,23 +104,27 @@
         this.getNewsContent();
         this.getComment();
       },
-      listenScroll(pos){
-        this.showTitle = -pos.y < this.height||-pos.y<100;
-        this.$refs.scroll.refresh()
+      listenScroll(pos) {
+        this.showTitle = -pos.y < this.height || -pos.y < 100;
       },
       getNewsContent() {
-        this.$http.get(baseUrl+'home/newsContent', {params: {'id': this.news_id}}).then(data => {
+        this.$http.get(baseUrl + 'home/newsContent', {params: {'id': this.news_id}}).then(data => {
           this.newsContent = data.data[0];
           this.tagList = this.newsContent.tag.split(',');
-          this.$refs.scroll.refresh()
+          this.$nextTick(() => {
+            this.$refs.scroll.refresh();
+          });
+
         }, error => {
           console.log(error)
         });
       },
       getComment() {
-        this.$http.get(baseUrl+'home/comment', {params: {'id': this.news_id}}).then(data => {
+        this.$http.get(baseUrl + 'home/comment', {params: {'id': this.news_id}}).then(data => {
           this.comment = data.data;
-          this.$refs.scroll.refresh()
+          this.$nextTick(() => {
+            this.$refs.scroll.refresh();
+          });
         }, error => {
           console.log(error)
         });
@@ -127,6 +135,27 @@
       toEdit() {
         this.isEdit = true
       },
+      post_comment() {
+        const commentator = Utils.getCookie('au_mobile');
+        const content = this.inputVal;
+        const news_id = this.news_id;
+        if (commentator) {
+          this.$http.post(baseUrl + 'post_comment', Qs.stringify({news_id,content,commentator})).then(data => {
+           if(data.data.code===0){
+             this.getComment();
+             this.$nextTick(() => {
+               this.$refs.scroll.refresh();
+             });
+             this.isEdit = false
+           }
+          }, error => {
+            console.log(error)
+          })
+        } else {
+          bus.$emit('send_login_mobile', true)
+        }
+
+      }
     },
     watch: {
       inputVal(val) {
