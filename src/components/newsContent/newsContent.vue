@@ -1,73 +1,72 @@
 <template>
-
-  <div class='newsContent'>
-    <div class="header" ref="header">
-      <div class="left">
-        <i class="iconfont icon-back" @click="back"></i>
-        <div class="span0" v-if="!showTitle">
-          <img src="../../common/image/login.png" alt="">
-          <div class="span1">
-            <div>{{newsContent.username}}</div>
-            <div>{{newsContent.n_fans}}个粉丝</div>
-          </div>
-        </div>
-      </div>
-      <div class="right">
-        <div class="focus" v-if="!showTitle">关注</div>
-        <i class="iconfont icon-fenxiang"></i>
-      </div>
-    </div>
-    <Scroll ref="scroll" class="scroll" :listenScroll="scrolls" @scroll="listenScroll">
-      <div class="content">
-        <div class="title" ref="title">
-          {{newsContent.title}}
-        </div>
-        <div class="sub-header" ref="subHeader">
-          <div class="left">
+  <transition name=slide>
+    <div class='newsContent'>
+      <div class="header" ref="header">
+        <div class="left">
+          <i class="iconfont icon-back" @click="back"></i>
+          <div class="span0" v-if="!showTitle">
             <img src="../../common/image/login.png" alt="">
-            <div class="msg">
-              <div class="top">{{newsContent.username}}</div>
-              <div class="bot"><span>{{newsContent.time}}</span>·<span>{{newsContent.username}}</span></div>
+            <div class="span1">
+              <div>{{newsContent.username}}</div>
+              <div>{{newsContent.n_fans}}个粉丝</div>
             </div>
           </div>
-          <span class="right focus ">关注</span>
         </div>
-        <div class="text">
-          {{newsContent.content}}
-        </div>
-        <div class="tag">
-          <span v-for="list in tagList">{{list}}</span>
-        </div>
-        <div class="like">
-          <div class="n-like active"><i class="iconfont icon-zan"></i>{{newsContent.n_like}}</div>
-          <div class="n-like"><i class="iconfont icon-cai"></i>{{newsContent.n_unlike}}</div>
-        </div>
-        <div class="comment-area-list">
-          <div class="list" v-for="list in comment">
-            <div class="left"><img src="http://p3.pstatp.com/thumb/216e00116e7a9bbb1206" alt=""></div>
-            <div class="right">
-              <div class="top"><span class="top-title">{{list.username}} </span><span class="zan"><i
-                class="iconfont icon-zan"></i>{{list.n_like_comment}}</span>
-              </div>
-              <div class="mid">{{list.content}}</div>
-              <div class="bot"><span class="time">{{list.comment_time}}</span><!--<span>3回复</span>--></div>
-            </div>
-          </div>
+        <div class="right">
+          <div class="focus" v-if="!showTitle">关注</div>
+          <i class="iconfont icon-fenxiang"></i>
         </div>
       </div>
-    </Scroll>
-    <div class="comment-area" v-if="!isEdit">
-      <div class="input" @click="toEdit"></div>
-      <i class="iconfont icon-xiaoxi"></i><i class="iconfont icon-icon-"></i>
-      <i class="iconfont icon-fenxiang1"></i>
-      <div class="tips" @click="toEdit"><i class="iconfont icon-xie"></i><span>写评论...</span></div>
+      <Scroll ref="scroll" class="scroll" :listenScroll="scrolls" @scroll="listenScroll">
+        <div class="content">
+          <div class="title" ref="title">
+            {{newsContent.title}}
+          </div>
+          <div class="sub-header" ref="subHeader">
+            <div class="left">
+              <img src="../../common/image/login.png" alt="">
+              <div class="msg">
+                <div class="top">{{newsContent.username}}</div>
+                <div class="bot"><span>{{newsContent.time}}</span>·<span>{{newsContent.username}}</span></div>
+              </div>
+            </div>
+            <span class="right focus ">关注</span>
+          </div>
+          <div class="text" v-html="newsContent.content">
+          </div>
+          <div class="tag">
+            <span v-for="list in tagList">{{list}}</span>
+          </div>
+          <div class="like">
+            <div class="n-like active"><i class="iconfont icon-zan"></i>{{newsContent.n_like}}</div>
+            <div class="n-like"><i class="iconfont icon-cai"></i>{{newsContent.n_unlike}}</div>
+          </div>
+          <div class="comment-area-list">
+            <div class="list" v-for="list in comment">
+              <div class="left"><img src="http://p3.pstatp.com/thumb/216e00116e7a9bbb1206" alt=""></div>
+              <div class="right">
+                <div class="top"><span class="top-title">{{list.username}} </span><span class="zan"><i
+                  class="iconfont icon-zan"></i>{{list.n_like_comment}}</span>
+                </div>
+                <div class="mid">{{list.content}}</div>
+                <div class="bot"><span class="time">{{list.comment_time}}</span><!--<span>3回复</span>--></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Scroll>
+      <div class="comment-area" v-if="!isEdit">
+        <div class="input" @click="toEdit"></div>
+        <i class="iconfont icon-xiaoxi"></i><i class="iconfont icon-icon-"></i>
+        <i class="iconfont icon-fenxiang1"></i>
+        <div class="slide" @click="toEdit"><i class="iconfont icon-xie"></i><span>写评论...</span></div>
+      </div>
+      <div class="comment-area-edit" v-if="isEdit">
+        <input placeholder="优质评论将会被优先展示" type="text" v-focus="isEdit" v-model.trim="inputVal">
+        <div class="publish" :class="notNull==true?'notnull':''" @click="post_comment">发布</div>
+      </div>
     </div>
-    <div class="comment-area-edit" v-if="isEdit">
-      <input placeholder="优质评论将会被优先展示" type="text" v-focus="isEdit" v-model="inputVal">
-      <div class="publish" :class="notNull==true?'notnull':''" @click="post_comment">发布</div>
-    </div>
-  </div>
-
+  </transition>
 
 </template>
 
@@ -114,7 +113,6 @@
           this.$nextTick(() => {
             this.$refs.scroll.refresh();
           });
-
         }, error => {
           console.log(error)
         });
@@ -140,14 +138,15 @@
         const content = this.inputVal;
         const news_id = this.news_id;
         if (commentator) {
-          this.$http.post(baseUrl + 'post_comment', Qs.stringify({news_id,content,commentator})).then(data => {
-           if(data.data.code===0){
-             this.getComment();
-             this.$nextTick(() => {
-               this.$refs.scroll.refresh();
-             });
-             this.isEdit = false
-           }
+          this.$http.post(baseUrl + 'post_comment', Qs.stringify({news_id, content, commentator})).then(data => {
+            if (data.data.code === 0) {
+              this.getComment();
+              this.$nextTick(() => {
+                this.$refs.scroll.refresh();
+              });
+              this.isEdit = false;
+              this.inputVal = '';
+            }
           }, error => {
             console.log(error)
           })
@@ -449,7 +448,7 @@
         font-size 1.2rem
         margin-left 0.6rem
       }
-      .tips {
+      .slide {
         position absolute
         font-size $font-size-small
         display flex
@@ -494,10 +493,27 @@
         font-weight 600
         font-size $font-size-medium-l
         text-align center
+        box-sizing border-box
+        padding 0.24rem
       }
       .notnull {
-        color #467CD4
+        color #ffffff
+        border 1px solid #dbdbdb
+        border-radius 19px
+        background-color #ff0008
+        margin-left 0.24rem
+      }
+      .notnull:active {
+        background-color #467cd4
       }
     }
+  }
+  .slide-enter-active, .slide-leave-active {
+    transition: all .4s;
+    opacity: 1;
+  }
+  .slide-enter, .slide-leave-active {
+    transform: translate3d(100%, 0, 0);
+    opacity: 0.5;
   }
 </style>

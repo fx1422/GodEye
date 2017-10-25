@@ -1,62 +1,62 @@
 <template>
-  <Scroll class="scroll">
-    <div class='account'>
-      <div class="head" v-if="!isLogin">
-        <div class="top">
-          登录推荐更精准
-        </div>
-        <div class="bot">
-          <div class="item" @click="login_mobile"><i class="iconfont icon-shouji"></i></div>
-          <div class="item"><i class="iconfont icon-weixin"></i></div>
-          <div class="item"><i class="iconfont icon-QQ"></i></div>
-          <i class="iconfont icon-youjiantou"></i>
-        </div>
+    <Scroll class="scroll">
+  <div class='account'>
+    <div class="head" v-if="!isLogin">
+      <div class="top">
+        登录推荐更精准
       </div>
-      <div class="sub-head" v-if="isLogin">
-        <div class="top"><img src="../../common/image/touxiang.jpg" alt=""><span>乙+Q</span></div>
-        <div class="bot">
-          <div class="item">
-            <span>2</span><span>动态</span>
-          </div>
-          <div class="item">
-            <span>2</span><span>关注</span>
-          </div>
-          <div class="item">
-            <span>2</span><span>粉丝</span>
-          </div>
-        </div>
+      <div class="bot">
+        <div class="item" @click="login_mobile"><i class="iconfont icon-shouji"></i></div>
+        <div class="item"><i class="iconfont icon-weixin"></i></div>
+        <div class="item"><i class="iconfont icon-QQ"></i></div>
+        <i class="iconfont icon-youjiantou"></i>
       </div>
-      <div class="tab">
+    </div>
+    <div class="sub-head" v-if="isLogin">
+      <div class="top"><img src="../../common/image/touxiang.jpg" alt=""><span>乙+Q</span></div>
+      <div class="bot">
         <div class="item">
-          <i class="iconfont icon-icon-"></i><span>收藏</span>
+          <span>2</span><span>动态</span>
         </div>
         <div class="item">
-          <i class="iconfont icon-lishi"></i><span>历史</span>
+          <span>2</span><span>关注</span>
         </div>
-        <div class="item" @click="cutNight">
+        <div class="item">
+          <span>2</span><span>粉丝</span>
+        </div>
+      </div>
+    </div>
+    <div class="tab">
+      <div class="item">
+        <i class="iconfont icon-icon-"></i><span>收藏</span>
+      </div>
+      <div class="item">
+        <i class="iconfont icon-lishi"></i><span>历史</span>
+      </div>
+      <div class="item" @click="cutNight">
           <span v-if="mid_night">
             <i class="iconfont icon-yejian"></i><span>夜间</span>
           </span>
-          <span v-if="!mid_night">
+        <span v-if="!mid_night">
            <i class="iconfont icon-rijian"></i><span>日间</span>
           </span>
 
-        </div>
-      </div>
-      <div class="list">
-        <span>消息通知</span><i class="iconfont icon-youjiantou"></i>
-      </div>
-      <div class="list">
-        <span>用户反馈</span><i class="iconfont icon-youjiantou"></i>
-      </div>
-      <div class="list">
-        <span>系统设置</span><i class="iconfont icon-youjiantou"></i>
-      </div>
-      <div class="login_out" @click="login_out">
-       退出登录
       </div>
     </div>
-  </Scroll>
+    <div class="list">
+      <span>消息通知</span><i class="iconfont icon-youjiantou"></i>
+    </div>
+    <div class="list">
+      <span>用户反馈</span><i class="iconfont icon-youjiantou"></i>
+    </div>
+    <div class="list">
+      <span>系统设置</span><i class="iconfont icon-youjiantou"></i>
+    </div>
+    <div class="login_out" @click="login_out">
+      退出登录
+    </div>
+  </div>
+</Scroll>
 </template>
 
 <script type="text/ecmascript-6">
@@ -83,8 +83,8 @@
       cutNight() {
         this.mid_night = !this.mid_night
       },
-      login_out(){
-        Utils.delCookie('login_success');
+      login_out() {
+        Utils.delCookie('au_mobile');
         this.isLogin = false
       }
     },
@@ -260,7 +260,7 @@
           color #E4E4E4
         }
       }
-      .login_out{
+      .login_out {
         text-align center
         font-size $font-size-large
         height 5vh
@@ -271,7 +271,7 @@
         border-radius 6px
         color #ffffff
       }
-      .login_out:active{
+      .login_out:active {
         background-color #2c558e
       }
     }

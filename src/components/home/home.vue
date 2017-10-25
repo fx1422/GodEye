@@ -1,9 +1,9 @@
 <template>
-  <div class='home'>
-    <TopHead></TopHead>
-    <TopMenuBar></TopMenuBar>
-    <ContentBox></ContentBox>
-  </div>
+    <div class='home'>
+      <TopHead></TopHead>
+      <TopMenuBar></TopMenuBar>
+      <ContentBox></ContentBox>
+    </div>
 </template>
 
 <script type="text/ecmascript-6">
@@ -16,7 +16,7 @@
       return {}
     },
     components: {
-      TopHead,TopMenuBar,ContentBox
+      TopHead, TopMenuBar, ContentBox
     }
   }
 </script>
@@ -27,4 +27,5 @@
     height $contentHeight
     width: 100%
   }
+
 </style>

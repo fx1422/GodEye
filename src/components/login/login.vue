@@ -3,10 +3,10 @@
     <div class="item-1"><i class="iconfont icon-guanbi" @click="close"></i></div>
     <div class="item-2">登录你的头条精彩永不关闭</div>
     <div class="item-3">
-      <input type="tel" placeholder="手机号" v-model="mobile_numb">
+      <input type="tel" placeholder="手机号" v-model.trim="mobile_numb">
       <div class="mobile_code" @click="flag_click&&get_mobile_code()">{{btn_mobile_code}}</div>
     </div>
-    <div class="item-4"><input type="tel" placeholder="请输入验证码" v-model="note_code"></div>
+    <div class="item-4"><input type="tel" placeholder="请输入验证码" v-model.trim="note_code"></div>
     <div class="item-5">未注册手机验证后自动登录</div>
     <div class="item-6" @click="login">进入头条</div>
     <div class="item-7">

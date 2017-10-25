@@ -7,7 +7,6 @@
           <img src="../../common/image/test1.jpg" alt=""> <img src="../../common/image/test2.jpg" alt=""> <img
           src="../../common/image/test3.jpg" alt="">
         </div>
-
         <div class="msg">
           <span v-if="item.to_top===0" class="label">置顶</span><span class="author">{{item.username}}</span><span
           class="n-review">{{item.n_comment}}条评论</span><span
@@ -48,7 +47,6 @@
       },
       goContent(id) {
         this.$router.push('/newsContent/'+id);
-        return
       },
     },
     components: {
@@ -112,4 +110,12 @@
     }
   }
 
+  .slide-enter-active, .slide-leave-active {
+    transition: all .4s;
+  }
+
+  .slide-enter, .slide-leave-active {
+    transform: translate3d(100%, 0, 0);
+    opacity: 0;
+  }
 </style>
